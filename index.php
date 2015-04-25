@@ -142,6 +142,7 @@ class wechatCallbackapiTest
         //if (strstr($keyword, "您好") || strstr($keyword, "你好") || strstr($keyword, "在吗")){
             //$result = $this->transmitService($object);
             $content = "这是个股票代码";
+            $result = $this->transmitText($object, $content);
         }
         //自动回复模式
         else{
