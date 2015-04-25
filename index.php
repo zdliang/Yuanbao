@@ -1,6 +1,6 @@
 <?php
 /*
-    方倍工作室
+    元宝分享平台
     http://www.cnblogs.com/txw1958/
     CopyRight 2014 All Rights Reserved
 */
@@ -86,7 +86,7 @@ class wechatCallbackapiTest
         switch ($object->Event)
         {
             case "subscribe":
-                $content = "欢迎关注方倍工作室 ";
+                $content = "欢迎关注元宝分享平台 ";
                 $content .= (!empty($object->EventKey))?("\n来自二维码场景 ".str_replace("qrscene_","",$object->EventKey)):"";
                 break;
             case "unsubscribe":
@@ -137,9 +137,11 @@ class wechatCallbackapiTest
     private function receiveText($object)
     {
         $keyword = trim($object->Content);
-        //多客服人工回复模式
-        if (strstr($keyword, "您好") || strstr($keyword, "你好") || strstr($keyword, "在吗")){
-            $result = $this->transmitService($object);
+        //回复股票信息
+        if (is_numeric($keyword) && strlen($keyword)==6){
+        //if (strstr($keyword, "您好") || strstr($keyword, "你好") || strstr($keyword, "在吗")){
+            //$result = $this->transmitService($object);
+            $content = "这是个股票代码";
         }
         //自动回复模式
         else{
@@ -157,7 +159,7 @@ class wechatCallbackapiTest
                 $content = array();
                 $content = array("Title"=>"最炫民族风", "Description"=>"歌手：凤凰传奇", "MusicUrl"=>"http://121.199.4.61/music/zxmzf.mp3", "HQMusicUrl"=>"http://121.199.4.61/music/zxmzf.mp3");
             }else{
-                $content = date("Y-m-d H:i:s",time())."\n".$object->FromUserName."\n技术支持 方倍工作室";
+                $content = date("Y-m-d H:i:s",time())."\n".$object->FromUserName."\n技术支持 元宝分享平台";
             }
             
             if(is_array($content)){
