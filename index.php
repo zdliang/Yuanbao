@@ -139,39 +139,45 @@ class wechatCallbackapiTest
         $keyword = trim($object->Content);
         //回复股票信息
         if (is_numeric($keyword) && strlen($keyword)==6){
-        //if (strstr($keyword, "您好") || strstr($keyword, "你好") || strstr($keyword, "在吗")){
-            //$result = $this->transmitService($object);
-            $content = "这是个股票代码";
-            $result = $this->transmitText($object, $content);
+            $stock = new StockTest();
+            $stockList = $stock->GetSimiliarStocks($stockNum);
+            if (!is_array($stockList)) {
+                $content = "未找到相关股票";                
+            } else{
+                $content = array();
+                foreach ($stockList as $number) {
+                    $content[] = array("Title"=>$number, "Description"=>"", "PicUrl"=>"", "Url" =>"");
+                }
+            }
         }
         //自动回复模式
-        else{
-            if (strstr($keyword, "文本")){
-                $content = "这是个文本消息";
-            }else if (strstr($keyword, "单图文")){
-                $content = array();
-                $content[] = array("Title"=>"单图文标题",  "Description"=>"单图文内容", "PicUrl"=>"http://discuz.comli.com/weixin/weather/icon/cartoon.jpg", "Url" =>"http://m.cnblogs.com/?u=txw1958");
-            }else if (strstr($keyword, "图文") || strstr($keyword, "多图文")){
-                $content = array();
-                $content[] = array("Title"=>"多图文1标题", "Description"=>"", "PicUrl"=>"http://discuz.comli.com/weixin/weather/icon/cartoon.jpg", "Url" =>"http://m.cnblogs.com/?u=txw1958");
-                $content[] = array("Title"=>"多图文2标题", "Description"=>"", "PicUrl"=>"http://d.hiphotos.bdimg.com/wisegame/pic/item/f3529822720e0cf3ac9f1ada0846f21fbe09aaa3.jpg", "Url" =>"http://m.cnblogs.com/?u=txw1958");
-                $content[] = array("Title"=>"多图文3标题", "Description"=>"", "PicUrl"=>"http://g.hiphotos.bdimg.com/wisegame/pic/item/18cb0a46f21fbe090d338acc6a600c338644adfd.jpg", "Url" =>"http://m.cnblogs.com/?u=txw1958");
-            }else if (strstr($keyword, "音乐")){
-                $content = array();
-                $content = array("Title"=>"最炫民族风", "Description"=>"歌手：凤凰传奇", "MusicUrl"=>"http://121.199.4.61/music/zxmzf.mp3", "HQMusicUrl"=>"http://121.199.4.61/music/zxmzf.mp3");
-            }else{
-                $content = date("Y-m-d H:i:s",time())."\n".$object->FromUserName."\n技术支持 元宝分享平台";
+        // else{
+        //     if (strstr($keyword, "文本")){
+        //         $content = "这是个文本消息";
+        //     }else if (strstr($keyword, "单图文")){
+        //         $content = array();
+        //         $content[] = array("Title"=>"单图文标题",  "Description"=>"单图文内容", "PicUrl"=>"http://discuz.comli.com/weixin/weather/icon/cartoon.jpg", "Url" =>"http://m.cnblogs.com/?u=txw1958");
+        //     }else if (strstr($keyword, "图文") || strstr($keyword, "多图文")){
+        //         $content = array();
+        //         $content[] = array("Title"=>"多图文1标题", "Description"=>"", "PicUrl"=>"http://discuz.comli.com/weixin/weather/icon/cartoon.jpg", "Url" =>"http://m.cnblogs.com/?u=txw1958");
+        //         $content[] = array("Title"=>"多图文2标题", "Description"=>"", "PicUrl"=>"http://d.hiphotos.bdimg.com/wisegame/pic/item/f3529822720e0cf3ac9f1ada0846f21fbe09aaa3.jpg", "Url" =>"http://m.cnblogs.com/?u=txw1958");
+        //         $content[] = array("Title"=>"多图文3标题", "Description"=>"", "PicUrl"=>"http://g.hiphotos.bdimg.com/wisegame/pic/item/18cb0a46f21fbe090d338acc6a600c338644adfd.jpg", "Url" =>"http://m.cnblogs.com/?u=txw1958");
+        //     }else if (strstr($keyword, "音乐")){
+        //         $content = array();
+        //         $content = array("Title"=>"最炫民族风", "Description"=>"歌手：凤凰传奇", "MusicUrl"=>"http://121.199.4.61/music/zxmzf.mp3", "HQMusicUrl"=>"http://121.199.4.61/music/zxmzf.mp3");
+        //     }else{
+        //         $content = date("Y-m-d H:i:s",time())."\n".$object->FromUserName."\n技术支持 元宝分享平台";
+        //     }                    
+        // }
+
+        if(is_array($content)){
+            if (isset($content[0]['PicUrl'])){
+                $result = $this->transmitNews($object, $content);
+            }else if (isset($content['MusicUrl'])){
+                $result = $this->transmitMusic($object, $content);
             }
-            
-            if(is_array($content)){
-                if (isset($content[0]['PicUrl'])){
-                    $result = $this->transmitNews($object, $content);
-                }else if (isset($content['MusicUrl'])){
-                    $result = $this->transmitMusic($object, $content);
-                }
-            }else{
-                $result = $this->transmitText($object, $content);
-            }
+        }else{
+            $result = $this->transmitText($object, $content);
         }
 
         return $result;
@@ -383,6 +389,47 @@ $item_str
             $log_filename = "log.xml";
             if(file_exists($log_filename) and (abs(filesize($log_filename)) > $max_size)){unlink($log_filename);}
             file_put_contents($log_filename, date('H:i:s')." ".$log_content."\r\n", FILE_APPEND);
+        }
+    }
+}
+
+/**
+*  class to get stock information
+*/
+class StockTest
+{    
+    function GetSimiliarStocks($stockNum)
+    {
+        $similarStocks = array();
+        if (is_numeric($stockNum) && strlen($stockNum)==6){        
+            if ($_SERVER['REMOTE_ADDR']=="127.0.0.1"){
+                $link = mysql_connect('127.0.0.1', 'admin', '1a2b3c') or die('Could not connect: ' . mysql_error());    
+                //echo 'Local';
+            } else{
+                $link = mysql_connect('ap-cdbr-azure-east-c.cloudapp.net', 'b38b9a71f4f907', '5b3f6d06') or die('Could not connect: ' . mysql_error()); 
+                //echo 'Remote';
+            }
+            
+            
+            mysql_select_db('yuanbao') or die('Could not select database');
+
+            // Performing SQL query
+
+            $query = "SELECT * FROM yuanbao.close_predict where symbol='".$stockNum."'";    
+
+            $result = mysql_query($query) or die('Query failed: ' . mysql_error());
+
+            // Printing results in HTML            
+            while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {                                
+                $similarStocks[] = $line["matchedSymbol"];
+            }            
+
+            // Free resultset
+            mysql_free_result($result);
+
+            // Closing connection
+            mysql_close($link);
+            return $similarStocks;
         }
     }
 }
