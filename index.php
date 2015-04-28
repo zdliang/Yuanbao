@@ -145,7 +145,10 @@ class wechatCallbackapiTest
                 $content = "未找到相关股票!";                
             } else{
                 $content = array();
-                $content[] = array("Title"=>$keyword, "Description"=>"", "PicUrl"=>"", "Url" =>"");
+                $content[] = array("Title"=>$keyword, 
+                    "Description"=>"未来20日预期绝对回报 ".sprintf("%.2f", $stockList[0]["meanPredictRet"]*100)."%  预期相对回报".sprintf("%.2f", $stockList[0]["meanPredictExcessRet"]*100)."%\n本数据由历史数据模拟而成，不作为投资依据，\n投资者据此操作，我公司不负任何责任", 
+                    "PicUrl"=>"", 
+                    "Url" =>"");
                 foreach ($stockList as $stock) { 
                      $content[] = array("Title"=>$stock["matchedSymbol"],  
                          "Description"=>date("Y-m-d","从".strtotime($stock["matchedWinStartDate"]))."到".date("Y-m-d",strtotime($stock["matchedWinEndDate"])),  
