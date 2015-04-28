@@ -21,7 +21,7 @@ class StockTest
 
             // Performing SQL query
 
-            $query = "SELECT * FROM yuanbao.close_predict_new where sameIndex=1 and samePosition=1 and sameIndexPosition=1 and volumeDistRank in (0,1,2) and indexDistRank in (0,1,2) and symbol='".$stockNum."' order by abs(dist) asc limit 0,10";    
+            $query = "SELECT * FROM yuanbao.close_predict_new where sameIndex=1 and samePosition=1 and sameIndexPosition=1 and volumeDistRank in (0,1,2) and indexDistRank in (0,1,2) and symbol='".$stockNum."' order by abs(dist) asc limit 0,9";    
 
             $result = mysql_query($query) or die('Query failed: ' . mysql_error());
 
