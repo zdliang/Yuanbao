@@ -142,7 +142,7 @@ class wechatCallbackapiTest
             $stock = new StockTest();
             $stockList = $stock->GetSimiliarStocks($keyword);
             if (!is_array($stockList)) {
-                $content = "未找到相关股票";                
+                $content = "未找到相关股票!";                
             } else{
                 $content = array();
                 foreach ($stockList as $number) {
