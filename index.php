@@ -148,7 +148,7 @@ class wechatCallbackapiTest
                 $content[] = array("Title"=>$keyword, "Description"=>"", "PicUrl"=>"", "Url" =>"");
                 foreach ($stockList as $stock) {
                     $content[] = array("Title"=>$stock["matchedSymbol"], 
-                        "Description"=>date("Y-m-d","从".strtotime($stock["matchedWinStartDate"]))."到".date("Y-m-d",strtotime($stock["matchedWinEndDate"])), 
+                        "Description"=>"从".date("Y-m-d",strtotime($stock["matchedWinStartDate"]))."到".date("Y-m-d",strtotime($stock["matchedWinEndDate"])), 
                         "PicUrl"=>"", 
                         "Url" =>"");
                 }
