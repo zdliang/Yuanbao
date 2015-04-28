@@ -141,7 +141,7 @@ class wechatCallbackapiTest
         if (is_numeric($keyword) && strlen($keyword)==6){
             $stock = new StockTest();
             $stockList = $stock->GetSimiliarStocks($keyword);
-            if (!is_array($stockList) or $stockList.count()==0) {
+            if (!is_array($stockList) or count($stockList)==0) {
                 $content = "未找到相关股票!";                
             } else{
                 $content = array();
