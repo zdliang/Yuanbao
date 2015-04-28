@@ -146,7 +146,7 @@ class wechatCallbackapiTest
             } else{
                 $content = array();
                 $content[] = array("Title"=>"股票代码：".$keyword, 
-                    "Description"=>"未来20日预期绝对回报 ".sprintf("%.2f", $stock["meanPredictRet"]*100)."%  预期相对回报".sprintf("%.2f", $stock["meanPredictExcessRet"]*100)."%\n本数据由历史数据模拟而成，不作为投资依据，\n投资者据此操作，我公司不负任何责任", 
+                    "Description"=>"未来20日预期绝对回报 ".sprintf("%.2f", $stockList[0]["meanPredictRet"]*100)."%  预期相对回报".sprintf("%.2f", $stockList[0]["meanPredictExcessRet"]*100)."%\n本数据由历史数据模拟而成，不作为投资依据，\n投资者据此操作，我公司不负任何责任", 
                     "PicUrl"=>"", 
                     "Url" =>"");
                 $index = 1;
@@ -402,3 +402,8 @@ $item_str
     }
 }
 ?>
+<html>
+    <header>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+    </header>
+</html>
