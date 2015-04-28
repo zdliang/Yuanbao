@@ -4,7 +4,7 @@
     http://www.cnblogs.com/txw1958/
     CopyRight 2014 All Rights Reserved
 */
-
+include 'stock.php';
 define("TOKEN", "weixin");
 
 $wechatObj = new wechatCallbackapiTest();
@@ -145,8 +145,12 @@ class wechatCallbackapiTest
                 $content = "未找到相关股票!";                
             } else{
                 $content = array();
-                foreach ($stockList as $number) {
-                    $content[] = array("Title"=>$number, "Description"=>"", "PicUrl"=>"", "Url" =>"");
+                $content[] = array("Title"=>$keyword, "Description"=>"", "PicUrl"=>"", "Url" =>"");
+                foreach ($stockList as $stock) {
+                    $content[] = array("Title"=>$stock["matchedSymbol"], 
+                        "Description"=>date("Y-m-d",strtotime($stock["matchedWinStartDate"])).date("Y-m-d",strtotime($stock["matchedWinEndDate"])), 
+                        "PicUrl"=>"", 
+                        "Url" =>"");
                 }
             }
         }
@@ -389,47 +393,6 @@ $item_str
             $log_filename = "log.xml";
             if(file_exists($log_filename) and (abs(filesize($log_filename)) > $max_size)){unlink($log_filename);}
             file_put_contents($log_filename, date('H:i:s')." ".$log_content."\r\n", FILE_APPEND);
-        }
-    }
-}
-
-/**
-*  class to get stock information
-*/
-class StockTest
-{    
-    function GetSimiliarStocks($stockNum)
-    {
-        $similarStocks = array();
-        if (is_numeric($stockNum) && strlen($stockNum)==6){        
-            if ($_SERVER['REMOTE_ADDR']=="127.0.0.1"){
-                $link = mysql_connect('127.0.0.1', 'admin', '1a2b3c') or die('Could not connect: ' . mysql_error());    
-                //echo 'Local';
-            } else{
-                $link = mysql_connect('yuanbao.cloudapp.net', 'yuanbao', '1a2b3c') or die('Could not connect: ' . mysql_error()); 
-                //echo 'Remote';
-            }
-            
-            
-            mysql_select_db('yuanbao') or die('Could not select database');
-
-            // Performing SQL query
-
-            $query = "SELECT * FROM yuanbao.close_predict_new where sameIndex=1 and samePosition=1 and sameIndexPosition=1 and volumeDistRank in (0,1,2) and indexDistRank in (0,1,2) and symbol='".$stockNum."'";    
-
-            $result = mysql_query($query) or die('Query failed: ' . mysql_error());
-
-            // Printing results in HTML            
-            while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {                                
-                $similarStocks[] = $line["matchedSymbol"];
-            }            
-
-            // Free resultset
-            mysql_free_result($result);
-
-            // Closing connection
-            mysql_close($link);
-            return $similarStocks;
         }
     }
 }
