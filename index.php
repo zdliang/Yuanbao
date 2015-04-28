@@ -406,7 +406,7 @@ class StockTest
                 $link = mysql_connect('127.0.0.1', 'admin', '1a2b3c') or die('Could not connect: ' . mysql_error());    
                 //echo 'Local';
             } else{
-                $link = mysql_connect('ap-cdbr-azure-east-c.cloudapp.net', 'b38b9a71f4f907', '5b3f6d06') or die('Could not connect: ' . mysql_error()); 
+                $link = mysql_connect('yuanbao.cloudapp.net', 'yuanbao', '1a2b3c') or die('Could not connect: ' . mysql_error()); 
                 //echo 'Remote';
             }
             
@@ -415,7 +415,7 @@ class StockTest
 
             // Performing SQL query
 
-            $query = "SELECT * FROM yuanbao.close_predict where symbol='".$stockNum."'";    
+            $query = "SELECT * FROM yuanbao.close_predict_new where sameIndex=1 and samePosition=1 and sameIndexPosition=1 and volumeDistRank in (0,1,2) and indexDistRank in (0,1,2) and symbol='".$stockNum."'";    
 
             $result = mysql_query($query) or die('Query failed: ' . mysql_error());
 
