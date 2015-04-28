@@ -145,25 +145,13 @@ class wechatCallbackapiTest
                 $content = "未找到相关股票!";                
             } else{
                 $content = array();
-                $content[] = array("Title"=>"股票代码：".$keyword, 
-                                   "Description"=>"未来20日预期绝对回报 ".sprintf("%.2f", $stockList[0]["meanPredictRet"]*100)."%  预期相对回报".sprintf("%.2f", $stockList[0]["meanPredictExcessRet"]*100)."%", 
-                                   "PicUrl"=>"", 
-                                   "Url" =>"");
-                $index = 1;
-                foreach ($stockList as $stock) {
-                    //"Title"=>"历史最像走势第".$index."名 ".$stock["matchedSymbol"]." ".date("Y/m/d",strtotime($stock["matchedWinStartDate"]))."-".date("Y/m/d",strtotime($stock["matchedWinEndDate"])), 
-                    // $content[] = array(
-                    //     "Title"=>$stock["matchedSymbol"]." ".date("Y/m/d",strtotime($stock["matchedWinStartDate"]))."-".date("Y/m/d",strtotime($stock["matchedWinEndDate"])), 
-                    //     "Description"=>"", 
-                    //     "PicUrl"=>"", 
-                    //     "Url" =>"");
-                    $content[] = array(
-                        "Title"=>$stock["matchedSymbol"], 
-                        "Description"=>"", 
-                        "PicUrl"=>"", 
-                        "Url" =>"");
-                    $index++;
-                }
+                $content[] = array("Title"=>$keyword, "Description"=>"", "PicUrl"=>"", "Url" =>"");
+                foreach ($stockList as $stock) { 
+                     $content[] = array("Title"=>$stock["matchedSymbol"],  
+                         "Description"=>date("Y-m-d","从".strtotime($stock["matchedWinStartDate"]))."到".date("Y-m-d",strtotime($stock["matchedWinEndDate"])),  
+                         "PicUrl"=>"",  
+                         "Url" =>""); 
+                }                 
             }
         }
         //自动回复模式
