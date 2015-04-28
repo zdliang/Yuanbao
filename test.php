@@ -3,7 +3,7 @@ include 'stock.php';
 $stockNum = $_GET["stockNum"];
 $stock = new StockTest();
 $stockList = $stock->GetSimiliarStocks($stockNum);
-if (!is_array($stockList)) {
+if (!is_array($stockList) or $stockList.count()==0) {
  	echo "empty stock array";	
 }
 else{	

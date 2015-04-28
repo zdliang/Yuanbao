@@ -141,14 +141,14 @@ class wechatCallbackapiTest
         if (is_numeric($keyword) && strlen($keyword)==6){
             $stock = new StockTest();
             $stockList = $stock->GetSimiliarStocks($keyword);
-            if (!is_array($stockList)) {
+            if (!is_array($stockList) or $stockList.count()==0) {
                 $content = "未找到相关股票!";                
             } else{
                 $content = array();
                 $content[] = array("Title"=>$keyword, "Description"=>"", "PicUrl"=>"", "Url" =>"");
                 foreach ($stockList as $stock) {
                     $content[] = array("Title"=>$stock["matchedSymbol"], 
-                        "Description"=>date("Y-m-d",strtotime($stock["matchedWinStartDate"])).date("Y-m-d",strtotime($stock["matchedWinEndDate"])), 
+                        "Description"=>date("Y-m-d","从".strtotime($stock["matchedWinStartDate"]))."到".date("Y-m-d",strtotime($stock["matchedWinEndDate"])), 
                         "PicUrl"=>"", 
                         "Url" =>"");
                 }
