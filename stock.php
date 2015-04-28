@@ -27,7 +27,11 @@ class StockTest
 
             // Printing results in HTML            
             while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {                                
-                $similarStocks[] = array('matchedSymbol' => $line["matchedSymbol"], 'matchedWinStartDate'=>$line["matchedWinStartDate"],'matchedWinEndDate'=>$line["matchedWinEndDate"]);
+                $similarStocks[] = array("matchedSymbol" => $line["matchedSymbol"], 
+                	"matchedWinStartDate"=>$line["matchedWinStartDate"],
+                	"matchedWinEndDate"=>$line["matchedWinEndDate"],
+                	"meanPredictRet"=>$line["meanPredictRet"],
+                	"meanPredictExcessRet"=>$line["meanPredictExcessRet"]);
             }            
 
             // Free resultset

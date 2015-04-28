@@ -145,12 +145,17 @@ class wechatCallbackapiTest
                 $content = "未找到相关股票!";                
             } else{
                 $content = array();
-                $content[] = array("Title"=>$keyword, "Description"=>"", "PicUrl"=>"", "Url" =>"");
+                $content[] = array("Title"=>"股票代码：".$keyword, 
+                    "Description"=>"未来20日预期绝对回报 ".sprintf("%.2f", $stock["meanPredictRet"]*100)."%  预期相对回报".sprintf("%.2f", $stock["meanPredictExcessRet"]*100)."%\n本数据由历史数据模拟而成，不作为投资依据，\n投资者据此操作，我公司不负任何责任", 
+                    "PicUrl"=>"", 
+                    "Url" =>"");
+                $index = 1;
                 foreach ($stockList as $stock) {
-                    $content[] = array("Title"=>$stock["matchedSymbol"]." "."从".date("Y-m-d",strtotime($stock["matchedWinStartDate"]))."到".date("Y-m-d",strtotime($stock["matchedWinEndDate"])), 
+                    $content[] = array("Title"=>"历史最像走势第".$index."名 ".$stock["matchedSymbol"]." "."从".date("Y/m/d",strtotime($stock["matchedWinStartDate"]))."-".date("Y/m/d",strtotime($stock["matchedWinEndDate"])), 
                         "Description"=>"", 
                         "PicUrl"=>"", 
                         "Url" =>"");
+                    $index++;
                 }
             }
         }
