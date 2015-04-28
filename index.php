@@ -146,7 +146,7 @@ class wechatCallbackapiTest
             } else{
                 $content = array();
                 $content[] = array("Title"=>$keyword, 
-                    "Description"=>"未来20日预期绝对回报 "."  预期相对回报"."\n本数据由历史数据模拟而成，不作为投资依据，\n投资者据此操作，我公司不负任何责任", 
+                    "Description"=>"未来20日预期绝对回报 "."  ％预期相对回报"."％\n本数据由历史数据模拟而成，不作为投资依据，\n投资者据此操作，我公司不负任何责任", 
                     "PicUrl"=>"", 
                     "Url" =>"");
                 foreach ($stockList as $stock) { 
