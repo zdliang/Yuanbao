@@ -170,8 +170,7 @@ class wechatCallbackapiTest
                 $content[] = array("Title"=>"股票代码：".$keyword, 
                     "Description"=>$Description, 
                     "PicUrl"=>"", 
-                    "Url" =>"");
-                }
+                    "Url" =>"");                
             }
         }
         //自动回复模式
