@@ -146,31 +146,31 @@ class wechatCallbackapiTest
             } else{
                 $content = array();
                 //多行文本
-                // $content[] = array("Title"=>"股票代码：".$keyword."\n未来20日预期绝对回报 ".sprintf("%.2f", $stockList[0]["meanPredictRet"]*100)." ％\n预期相对回报".sprintf("%.2f", $stockList[0]["meanPredictExcessRet"]*100)."％", 
-                //     "Description"=>"", 
-                //     "PicUrl"=>"", 
-                //     "Url" =>"");
-                // $index = 1;
-                // foreach ($stockList as $stock) { 
-                //      $content[] = array("Title"=>"历史最像走势第".$index."名 ".$stock["matchedSymbol"]." ".date("Y/m/d",strtotime($stock["matchedWinStartDate"]))."-".date("Y/m/d",strtotime($stock["matchedWinEndDate"])),   
-                //          "Description"=>"",  
-                //          "PicUrl"=>"",  
-                //          "Url" =>""); 
-                //      $index++;
-                // }                 
+                $content[] = array("Title"=>"股票代码：".$keyword."\n未来20日预期绝对回报 ".sprintf("%.2f", $stockList[0]["meanPredictRet"]*100)." ％\n预期相对回报".sprintf("%.2f", $stockList[0]["meanPredictExcessRet"]*100)."％", 
+                    "Description"=>"", 
+                    "PicUrl"=>"", 
+                    "Url" =>"");
+                $index = 1;
+                foreach ($stockList as $stock) { 
+                     $content[] = array("Title"=>"历史最像走势第".$index."名 ".$stock["matchedSymbol"]." ".date("Y/m/d",strtotime($stock["matchedWinStartDate"]))."-".date("Y/m/d",strtotime($stock["matchedWinEndDate"])),   
+                         "Description"=>"",  
+                         "PicUrl"=>"",  
+                         "Url" =>""); 
+                     $index++;
+                }                 
 
                 //单行文本
-                $index = 1;
-                $Description = "未来20日预期绝对回报 ".sprintf("%.2f", $stockList[0]["meanPredictRet"]*100)." ％\n预期相对回报".sprintf("%.2f", $stockList[0]["meanPredictExcessRet"]*100)."％\n";
-                foreach ($stockList as $stock) { 
-                    $Description = "历史最像走势第".$index."名 ".$stock["matchedSymbol"]."\n".date("Y/m/d",strtotime($stock["matchedWinStartDate"]))."-".date("Y/m/d",strtotime($stock["matchedWinEndDate"]))."\n";
-                     $index++;
-                }
-                $Description = "本数据由历史数据模拟而成，不作为投资依据，\n投资者据此操作，我公司不负任何责任";
-                $content[] = array("Title"=>"股票代码：".$keyword, 
-                    "Description"=>$Description, 
-                    "PicUrl"=>"", 
-                    "Url" =>"");                
+                // $index = 1;
+                // $Description = "未来20日预期绝对回报 ".sprintf("%.2f", $stockList[0]["meanPredictRet"]*100)." ％\n预期相对回报".sprintf("%.2f", $stockList[0]["meanPredictExcessRet"]*100)."％\n";
+                // foreach ($stockList as $stock) { 
+                //     $Description = $Description + "历史最像走势第".$index."名 ".$stock["matchedSymbol"]."\n".date("Y/m/d",strtotime($stock["matchedWinStartDate"]))."-".date("Y/m/d",strtotime($stock["matchedWinEndDate"]))."\n";
+                //      $index++;
+                // }
+                // $Description = $Description + "本数据由历史数据模拟而成，不作为投资依据，\n投资者据此操作，我公司不负任何责任";
+                // $content[] = array("Title"=>"股票代码：".$keyword, 
+                //     "Description"=>$Description, 
+                //     "PicUrl"=>"", 
+                //     "Url" =>"");
             }
         }
         //自动回复模式
